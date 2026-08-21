@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Planning along Differentiable Charts of Constraint Manifolds with the Inverse Function Theorem</title>
+  <meta name="description" content="We use the inverse function theorem to differentiate through black-box analytic inverse kinematics solvers, enabling constrained trajectory optimization in minimal coordinates on arbitrary robot manipulators.">
+
+  <!-- This page is deliberately not optimized for search indexing. No Scholar/Twitter metadata. -->
+  <meta property="og:title" content="Planning along Differentiable Charts of Constraint Manifolds with the Inverse Function Theorem">
+  <meta property="og:description" content="Differentiating through black-box analytic IK with the inverse function theorem.">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="static/images/social_preview.jpg">
+
+  <!-- Critical CSS -->
+  <link rel="stylesheet" href="static/css/bulma.min.css">
+  <link rel="stylesheet" href="static/css/index.css">
+
+  <!-- Non-critical CSS -->
+  <link rel="preload" href="static/css/bulma-carousel.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <link rel="preload" href="static/css/bulma-slider.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <link rel="preload" href="static/css/fontawesome.all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <link rel="preload" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript>
+    <link rel="stylesheet" href="static/css/bulma-carousel.min.css">
+    <link rel="stylesheet" href="static/css/bulma-slider.min.css">
+    <link rel="stylesheet" href="static/css/fontawesome.all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  </noscript>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://cdn.jsdelivr.net">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <script defer src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script defer src="static/js/fontawesome.all.min.js"></script>
+  <script defer src="static/js/bulma-carousel.min.js"></script>
+  <script defer src="static/js/bulma-slider.min.js"></script>
+  <script defer src="static/js/index.js"></script>
+
+  <!-- MathJax -->
+  <script>
+    window.MathJax = {
+      tex: {
+        inlineMath: [['\\(', '\\)']],
+        displayMath: [['\\[', '\\]']]
+      },
+      options: { skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'] }
+    };
+  </script>
+  <script defer id="MathJax-script" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+  <style>
+    /* "Coming soon" affordance for links that are not live yet. */
+    /* Keep the fixed "Related Work" button from colliding with a long title. */
+    .publication-title { margin-top: 3rem; }
+    .button.is-dark.coming-soon {
+      opacity: 0.55;
+      cursor: not-allowed;
+      pointer-events: none;
+    }
+    .coming-soon-note {
+      display: block;
+      margin-top: 0.9rem;
+      font-size: 0.85rem;
+      color: #7a7a7a;
+    }
+    /* .hero is a flex column, so a container holding only a placeholder shrink-to-fits. */
+    .hero > .container { width: 100%; }
+    .media-placeholder {
+      width: 100%;
+      flex: 0 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      background: #f0f1f4;
+      border: 2px dashed #c6c9d2;
+      border-radius: 10px;
+      color: #7a7a7a;
+      text-align: center;
+      padding: 2rem 1rem;
+    }
+    .media-placeholder.is-video { aspect-ratio: 16 / 9; }
+    .media-placeholder .fa-play-circle, .media-placeholder .fa-film { font-size: 2.6rem; margin-bottom: 0.6rem; }
+    .fig-caption {
+      font-size: 0.9rem;
+      color: #4a4a4a;
+      margin-top: 0.6rem;
+      text-align: center;
+    }
+    .fig img, .fig video { border-radius: 8px; width: 100%; height: auto; display: block; }
+    .results-table { font-size: 0.88rem; }
+    .results-table td, .results-table th { vertical-align: middle; }
+    .results-table .group-row td {
+      font-style: italic;
+      background: #f5f5f7;
+    }
+    .headline-stats {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1.5rem;
+      justify-content: center;
+      margin: 1.5rem 0;
+    }
+    .headline-stat {
+      min-width: 9rem;
+      text-align: center;
+    }
+    .headline-stat .num {
+      display: block;
+      font-size: 1.9rem;
+      font-weight: 700;
+      line-height: 1.1;
+    }
+    .headline-stat .lbl {
+      display: block;
+      font-size: 0.82rem;
+      color: #7a7a7a;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+    }
+    .table-caption { font-size: 0.85rem; color: #7a7a7a; margin-bottom: 0.6rem; }
+  </style>
+</head>
+<body>
+
+  <!-- Scroll to Top Button -->
+  <button class="scroll-to-top" onclick="scrollToTop()" title="Scroll to top" aria-label="Scroll to top">
+    <i class="fas fa-chevron-up"></i>
+  </button>
+
+  <!-- Related work dropdown -->
+  <div class="more-works-container">
+    <button class="more-works-btn" onclick="toggleMoreWorks()" title="Related work from our lab">
+      <i class="fas fa-flask"></i>
+      Related Work
+      <i class="fas fa-chevron-down dropdown-arrow"></i>
+    </button>
+    <div class="more-works-dropdown" id="moreWorksDropdown">
+      <div class="dropdown-header">
+        <h4>Related Work</h4>
+        <button class="close-btn" onclick="toggleMoreWorks()">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+      <div class="works-list">
+        <a href="https://arxiv.org/abs/2309.08770" class="work-item" target="_blank">
+          <div class="work-info">
+            <h5>Constrained Bimanual Planning with Analytic Inverse Kinematics</h5>
+            <p>The predecessor to this work.</p>
+            <span class="work-venue">ICRA 2024</span>
+          </div>
+          <i class="fas fa-external-link-alt"></i>
+        </a>
+        <a href="https://arxiv.org/abs/2602.05092" class="work-item" target="_blank">
+          <div class="work-info">
+            <h5>A Framework for Constrained Motion Planning in Minimal Coordinates</h5>
+            <p>The broader minimal-coordinates framework.</p>
+            <span class="work-venue">arXiv 2602.05092</span>
+          </div>
+          <i class="fas fa-external-link-alt"></i>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <main id="main-content">
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="hero-body">
+      <div class="container is-max-desktop">
+        <div class="columns is-centered">
+          <div class="column has-text-centered">
+            <h1 class="title is-1 publication-title">Planning along Differentiable Charts of Constraint Manifolds with the Inverse Function Theorem</h1>
+            <div class="is-size-5 publication-authors">
+              <span class="author-block">
+                <a href="https://tommycohn.com/" target="_blank">Thomas Cohn</a><sup>*</sup>,</span>
+              <span class="author-block">
+                <a href="https://seijis.csail.mit.edu/" target="_blank">Seiji Shaw</a><sup>*</sup>,</span>
+              <span class="author-block">
+                <a href="https://harelbiggie.com/" target="_blank">Harel Biggie</a>,</span>
+              <span class="author-block">
+                <a href="https://people.csail.mit.edu/travis/" target="_blank">Travis Manderson</a>,</span>
+              <span class="author-block">
+                <a href="https://aeroastro.mit.edu/people/nicholas-roy/" target="_blank">Nicholas Roy</a>,</span>
+              <span class="author-block">
+                <a href="https://locomotion.csail.mit.edu/russt.html" target="_blank">Russ Tedrake</a>
+              </span>
+            </div>
+
+            <div class="is-size-5 publication-authors">
+              <!-- TODO: add the venue and year once the paper is accepted. -->
+              <span class="author-block">MIT Computer Science and Artificial Intelligence Laboratory<br>Under review</span>
+              <span class="eql-cntrb"><small><br><sup>*</sup>Indicates Equal Contribution</small></span>
+            </div>
+
+            <div class="column has-text-centered">
+              <div class="publication-links">
+
+                <!-- TODO: when the PDF is public, drop `coming-soon` and set href to the paper PDF. -->
+                <span class="link-block">
+                  <a class="external-link button is-normal is-rounded is-dark coming-soon" aria-disabled="true">
+                    <span class="icon"><i class="fas fa-file-pdf"></i></span>
+                    <span>Paper</span>
+                  </a>
+                </span>
+
+                <!-- TODO: replace with https://arxiv.org/abs/<ARXIV_ID> and drop `coming-soon`. -->
+                <span class="link-block">
+                  <a class="external-link button is-normal is-rounded is-dark coming-soon" aria-disabled="true">
+                    <span class="icon"><i class="ai ai-arxiv"></i></span>
+                    <span>arXiv</span>
+                  </a>
+                </span>
+
+                <!-- TODO: the three experiment repositories are currently private. Once public, link them here:
+                     https://github.com/cohnt/iiwa-bimanual-augmented-jacobian-test
+                     https://github.com/cohnt/EAIK-IFT-Example
+                     https://github.com/sageshoyu/rby1-constrained-planning -->
+                <span class="link-block">
+                  <a class="external-link button is-normal is-rounded is-dark coming-soon" aria-disabled="true">
+                    <span class="icon"><i class="fab fa-github"></i></span>
+                    <span>Code</span>
+                  </a>
+                </span>
+
+                <!-- TODO: point at the overview video on YouTube once uploaded. -->
+                <span class="link-block">
+                  <a class="external-link button is-normal is-rounded is-dark coming-soon" aria-disabled="true">
+                    <span class="icon"><i class="fab fa-youtube"></i></span>
+                    <span>Video</span>
+                  </a>
+                </span>
+
+                <!-- TODO: point at the LinkedIn announcement post once written. -->
+                <span class="link-block">
+                  <a class="external-link button is-normal is-rounded is-dark coming-soon" aria-disabled="true">
+                    <span class="icon"><i class="fab fa-linkedin"></i></span>
+                    <span>LinkedIn</span>
+                  </a>
+                </span>
+
+              </div>
+              <span class="coming-soon-note">Paper, code, and video links will go live when the paper is released.</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Overview video (doubles as the teaser) -->
+  <section class="hero teaser">
+    <div class="container is-max-desktop">
+      <div class="hero-body">
+        <!-- TODO: replace the placeholder below with the real player once the overview video is uploaded:
+        <div class="publication-video">
+          <iframe src="https://www.youtube.com/embed/OVERVIEW_VIDEO_ID" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+        </div>
+        -->
+        <div class="media-placeholder is-video">
+          <i class="fas fa-play-circle"></i>
+          <p><strong>Overview video coming soon</strong></p>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- End overview video -->
+
+  <!-- Results carousel -->
+  <section class="hero is-small">
+    <div class="hero-body">
+      <div class="container is-max-desktop">
+        <div id="results-carousel" class="carousel results-carousel">
+          <div class="item">
+            <img src="static/images/teaser_rby1.jpg" alt="Swept volume of an RB-Y1 humanoid carrying a box from the floor to a table." loading="lazy"/>
+            <h2 class="subtitle has-text-centered">An RB-Y1 carries a box with both hands, planned in minimal coordinates.</h2>
+          </div>
+          <div class="item">
+            <img src="static/images/iiwa_swept_volume.jpg" alt="Swept volume of two KUKA iiwa arms carrying an object between them." loading="lazy"/>
+            <h2 class="subtitle has-text-centered">A collision-free, constraint-satisfying bimanual KUKA iiwa motion.</h2>
+          </div>
+          <div class="item">
+            <img src="static/images/grasp_selection.jpg" alt="Three semi-transparent UR5e arms grasping the same mug from different configurations." loading="lazy"/>
+            <h2 class="subtitle has-text-centered">Three grasps admitted by our UR5e grasp-selection formulation.</h2>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- End results carousel -->
+
+  <!-- Abstract -->
+  <section class="section hero is-light">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered has-text-centered">
+        <div class="column is-four-fifths">
+          <h2 class="title is-3">Abstract</h2>
+          <div class="content has-text-justified">
+            <p>
+              Planning trajectories for robot manipulators under kinematic equality constraints restricts feasible motions to a measure-zero submanifold of the configuration space, requiring specialized algorithmic treatment.
+              A promising strategy is parametrizing the set of feasible configurations using analytic inverse kinematics (IK).
+              Select robot manipulators have bespoke handwritten analytic IK functions which are differentiable, a necessary property for gradient-based trajectory optimization.
+              But the vast majority of manipulators have IK mappings computed by automated meta-solvers like IKFast, which are notoriously difficult to differentiate through.
+              We present a new approach for computing gradients of analytic IK parameterizations: we leverage the inverse function theorem to recover the desired gradients from the ordinary forward kinematic Jacobian.
+              Furthermore, we present a least-squares domain extension and an optimization-amenable description of the reachability constraint.
+              This preserves gradient signal outside the reachable workspace, allowing nonlinear optimizers to elegantly recover from infeasible intermediate iterates.
+              We demonstrate the efficacy of our proposed approach through direct numerical experiments and downstream motion planning tasks, including a hardware demonstration of an RB-Y1 picking up a box and placing it on a table.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- End abstract -->
+
+  <!-- Method -->
+  <section class="section hero">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered">
+        <div class="column is-four-fifths">
+          <h2 class="title is-3 has-text-centered">Method</h2>
+
+          <div class="columns is-centered">
+            <div class="column is-half fig">
+              <img src="static/images/domain_extension.gif" alt="A KUKA iiwa arm tracking a target that remains inside its reachable workspace." loading="lazy">
+              <p class="fig-caption"><strong>Domain extension.</strong> Inside the workspace, extended IK agrees exactly with ordinary analytic IK.</p>
+            </div>
+            <div class="column is-half fig">
+              <img src="static/images/boundary_reach.gif" alt="A KUKA iiwa arm with a plot of the boundary reachability constraint value over time." loading="lazy">
+              <p class="fig-caption"><strong>Boundary reachability.</strong> The constraint stays slack in the interior and blows up at the boundary.</p>
+            </div>
+          </div>
+
+          <div class="content has-text-justified">
+            <p>
+              Kinematic equality constraints &mdash; carrying a box with two hands, opening a door, keeping feet planted &mdash;
+              confine a robot to a measure-zero <em>constraint manifold</em>. Rather than carry that constraint through the
+              optimization, we <em>parameterize</em> the manifold with analytic inverse kinematics: optimize over end-effector
+              pose and self-motion, and let IK map back to joint angles. The constraint then holds by construction.
+            </p>
+            <p>
+              This needs derivatives of the IK map, and almost every manipulator gets its IK from a meta-solver like IKFast,
+              whose machine-generated code is hopeless to differentiate through. We never touch it. Analytic IK is the local
+              inverse of the <em>augmented</em> forward kinematics \(\mathrm{FK}_A\), which is trivially differentiable, so the
+              inverse function theorem recovers the chart's derivative from a linear solve:
+            </p>
+            <p>
+              \[ D\mathrm{FK}_A(q)\, \frac{\partial q}{\partial y} = \left( \frac{\partial X}{\partial y},\ \frac{\partial \psi}{\partial y} \right)^{\!\top} \]
+            </p>
+            <p>
+              Analytic IK is also undefined outside the reachable workspace, where optimizers routinely wander. We extend it
+              as a least-squares projection whose exact derivative collapses to the inverse function theorem result whenever
+              the target is reachable, and replace the usual reachability constraint &mdash; active at <em>every</em> feasible
+              point &mdash; with one that only activates near the workspace boundary:
+            </p>
+            <p>
+              \[ -\log\det\!\left( J J^\top + \epsilon I \right) \le \tau \]
+            </p>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- End method -->
+
+  <!-- Experiment 1 -->
+  <section class="section hero is-light">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered">
+        <div class="column is-four-fifths">
+          <h2 class="title is-3 has-text-centered">How much do we lose versus bespoke autodiff?</h2>
+
+          <div class="columns is-centered">
+            <div class="column is-half fig">
+              <img src="static/images/autodiff_error.png" alt="Log-log plot of gradient error versus partial derivative vector size." loading="lazy">
+            </div>
+            <div class="column is-half fig">
+              <img src="static/images/autodiff_runtime.png" alt="Log-log plot of gradient computation runtime versus partial derivative vector size." loading="lazy">
+            </div>
+          </div>
+          <p class="fig-caption">
+            Error (left) and runtime (right) versus autodiff, over 10,000 sampled reachable configurations. Axes are log-scale;
+            shading is the 5&ndash;95% range.
+          </p>
+
+          <div class="content has-text-justified" style="margin-top: 1.5rem;">
+            <p>
+              The bimanual KUKA iiwa of <a href="https://arxiv.org/abs/2309.08770" target="_blank">Cohn et al. (ICRA 2024)</a>
+              has a handwritten analytic IK that <em>was</em> instrumented for autodiff, giving us a ground truth. The two agree
+              to numerical precision, and our method is faster once the partial size passes \(2^6\). Downstream, our gradients
+              paired with the old direct reachability constraint cost about 4&times; on convex region growth, but paired with
+              boundary reachability and residual damping they land at 1.15 s against the bespoke baseline's 1.03 s.
+            </p>
+          </div>
+
+          <p class="table-caption">Table I &mdash; Downstream runtimes (seconds) by gradient strategy.</p>
+          <div class="table-container">
+          <table class="table is-fullwidth is-striped is-narrow results-table">
+            <thead>
+              <tr><th>Gradient Method</th><th>IrisNp2</th><th>Trajopt</th><th>TOPPRA</th></tr>
+            </thead>
+            <tbody>
+              <tr class="group-row"><td colspan="4">Autodiff Baselines</td></tr>
+              <tr><td>Autodiff, Direct Reachability</td><td>1.14</td><td>1.54</td><td>0.59</td></tr>
+              <tr><td>Autodiff, Probing Reachability</td><td>1.03</td><td>0.98</td><td>0.60</td></tr>
+              <tr><td>Autodiff, Boundary Reachability</td><td>1.08</td><td>1.24</td><td>0.58</td></tr>
+              <tr class="group-row"><td colspan="4">Proposed: IFT, Direct Reachability</td></tr>
+              <tr><td>IFT, Zero Gradients</td><td>4.11</td><td>1.35</td><td>0.75</td></tr>
+              <tr><td>IFT, Pseudoinverse</td><td>4.12</td><td>1.31</td><td>0.81</td></tr>
+              <tr><td>IFT, LM Constant</td><td>3.12</td><td>1.42</td><td>0.80</td></tr>
+              <tr><td>IFT, LM SVT</td><td>2.22</td><td>1.49</td><td>0.80</td></tr>
+              <tr><td>IFT, Residual Damping</td><td>1.58</td><td>1.76</td><td>0.81</td></tr>
+              <tr><td>IFT, Anisotropic Damping</td><td>1.72</td><td>2.52</td><td>0.81</td></tr>
+              <tr><td>IFT, Full Newton</td><td>1.71</td><td>1.43</td><td>0.82</td></tr>
+              <tr class="group-row"><td colspan="4">Proposed: IFT, Boundary Reachability</td></tr>
+              <tr><td>IFT, Zero Gradients</td><td>1.64</td><td>1.20</td><td>0.75</td></tr>
+              <tr><td>IFT, Pseudoinverse</td><td>1.75</td><td>1.23</td><td>0.80</td></tr>
+              <tr><td>IFT, LM Constant</td><td>2.51</td><td>1.31</td><td>0.80</td></tr>
+              <tr><td>IFT, LM SVT</td><td>1.29</td><td>1.21</td><td>0.80</td></tr>
+              <tr><td>IFT, Residual Damping</td><td>1.15</td><td>1.24</td><td>0.81</td></tr>
+              <tr><td>IFT, Anisotropic Damping</td><td>1.15</td><td>1.23</td><td>0.81</td></tr>
+              <tr><td>IFT, Full Newton</td><td>1.17</td><td>1.20</td><td>0.82</td></tr>
+            </tbody>
+          </table>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- End experiment 1 -->
+
+  <!-- Experiment 2 -->
+  <section class="section hero">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered">
+        <div class="column is-four-fifths">
+          <h2 class="title is-3 has-text-centered">Grasp selection on a UR5e with EAIK</h2>
+
+          <div class="fig">
+            <img src="static/images/ur_scene.jpg" alt="The full grasp selection scene with a UR5e, a mug, tables, and shelf obstacles." loading="lazy">
+            <p class="fig-caption">The grasp selection scene, with shelf obstacles.</p>
+          </div>
+
+          <div class="headline-stats">
+            <div class="headline-stat"><span class="num">46.5%</span><span class="lbl">C-space baseline</span></div>
+            <div class="headline-stat"><span class="num">61.4%</span><span class="lbl">IFT, direct</span></div>
+            <div class="headline-stat"><span class="num">63.2%</span><span class="lbl">IFT, boundary</span></div>
+          </div>
+
+          <div class="content has-text-justified">
+            <p>
+              A UR5e must grasp a mug among shelf obstacles, with IK derived automatically by
+              <a href="https://ieeexplore.ieee.org/document/11122599" target="_blank">EAIK</a>. Reformulating the problem in
+              minimal coordinates raises SNOPT's success rate by nearly 17 points over the configuration-space baseline, across
+              1000 paired solves.
+            </p>
+          </div>
+
+          <p class="table-caption">Table II &mdash; Grasp selection IK experimental results. The number in parentheses is restricted to three-way mutual successes.</p>
+          <div class="table-container">
+          <table class="table is-fullwidth is-striped is-narrow results-table">
+            <thead>
+              <tr><th>Formulation</th><th>Success Rate</th><th>Mean Cost</th><th>Median Cost</th><th>Mean Runtime</th><th>Median Runtime</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>C-Space Baseline</td><td>46.5%</td><td>12.68 (12.81)</td><td>10.94 (11.11)</td><td>0.357 (0.365)</td><td>0.105 (0.096)</td></tr>
+              <tr><td>IFT, Direct</td><td>61.4%</td><td>13.30 (12.57)</td><td>12.65 (11.95)</td><td>0.719 (0.720)</td><td>0.100 (0.083)</td></tr>
+              <tr><td>IFT, Boundary</td><td>63.2%</td><td>13.53 (13.03)</td><td>12.83 (12.66)</td><td>0.776 (0.825)</td><td>0.110 (0.095)</td></tr>
+            </tbody>
+          </table>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- End experiment 2 -->
+
+  <!-- Experiment 3 -->
+  <section class="section hero is-light">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered">
+        <div class="column is-four-fifths">
+          <h2 class="title is-3 has-text-centered">Whole-body pick-and-place on RB-Y1 hardware</h2>
+
+          <!-- TODO: replace the placeholder below with the real player once the supplementary video is uploaded:
+          <div class="publication-video">
+            <iframe src="https://www.youtube.com/embed/SUPPLEMENTARY_VIDEO_ID" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+          </div>
+          -->
+          <div class="media-placeholder is-video">
+            <i class="fas fa-play-circle"></i>
+            <p><strong>Hardware results video coming soon</strong></p>
+          </div>
+
+          <div class="headline-stats">
+            <div class="headline-stat"><span class="num">20/20</span><span class="lbl">hardware trials</span></div>
+            <div class="headline-stat"><span class="num">56.1 s</span><span class="lbl">mean planning time</span></div>
+            <div class="headline-stat"><span class="num">0.555 mm</span><span class="lbl">mean measured violation</span></div>
+            <div class="headline-stat"><span class="num">2.235 mm</span><span class="lbl">max measured violation</span></div>
+          </div>
+
+          <div class="content has-text-justified">
+            <p>
+              A Rainbow Robotics RB-Y1 picks a box off the floor with both hands and places it on a table, using IKFast-generated
+              IK, while keeping its center of mass over its support polytope. We ran it from 20 box placements on a
+              4&times;5 grid spaced 3 cm apart. All 20 planned and executed. The plans satisfy the constraint to floating point
+              tolerance, so joint position control alone was enough &mdash; what the robot actually shows is controller tracking
+              error, averaging just over half a millimeter.
+            </p>
+          </div>
+
+          <div class="columns is-centered">
+            <div class="column is-half fig">
+              <img src="static/images/rby1_grid_setup.png" alt="Plot of the reachable region for the box center with the 4 by 5 grid of tested placements overlaid." loading="lazy">
+              <p class="fig-caption">All 20 placements lie inside the verified reachable region.</p>
+            </div>
+            <div class="column is-half fig">
+              <img src="static/images/rby1_grid_status.png" alt="Grid of 20 box placement points, all marked as successfully planned." loading="lazy">
+              <p class="fig-caption">All 20 grid points planned successfully.</p>
+            </div>
+          </div>
+
+          <p class="table-caption" style="margin-top: 1.5rem;">Table III &mdash; RB-Y1 box pickup experimental results.</p>
+          <div class="table-container">
+          <table class="table is-fullwidth is-striped is-narrow results-table">
+            <thead>
+              <tr><th>Metric</th><th>Mean</th><th>Max</th></tr>
+            </thead>
+            <tbody>
+              <tr class="group-row"><td colspan="3">Planning Statistics</td></tr>
+              <tr><td>Total Runtime (s)</td><td>56.1</td><td>135.0</td></tr>
+              <tr><td>Optimization IK Runtime (s)</td><td>19.4</td><td>84.0</td></tr>
+              <tr><td>Trajectory Optimization Runtime (s)</td><td>5.6</td><td>29.6</td></tr>
+              <tr class="group-row"><td colspan="3">Hardware Statistics</td></tr>
+              <tr><td>Trajectory Duration (s)</td><td>54.1</td><td>63.6</td></tr>
+              <tr><td>Measured Constraint Violation (mm)</td><td>0.555</td><td>2.235</td></tr>
+              <tr><td>Measured Constraint Violation (mrad)</td><td>1.597</td><td>6.809</td></tr>
+            </tbody>
+          </table>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- End experiment 3 -->
+
+  <!-- Acknowledgements -->
+  <section class="section hero">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered">
+        <div class="column is-four-fifths">
+          <h2 class="title is-3 has-text-centered">Acknowledgements</h2>
+          <div class="content has-text-justified">
+            <p>
+              We thank Aditya Agarwal and Lucy Cai for their contributions to the RB-Y1 communication infrastructure, and
+              Shrutheesh Iyer for his insights on kinematics. This project was supported by the NSF Graduate Research Fellowship
+              Program under Grant No. 2141064, MIT Siegel Family Quest for Intelligence, NSERC, and the Army Research Laboratory
+              under Cooperative Agreement Number W911NF-17-2-0181.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- End acknowledgements -->
+
+  <!-- BibTeX -->
+  <section class="section" id="BibTeX">
+    <div class="container is-max-desktop content">
+      <div class="bibtex-header">
+        <h2 class="title">BibTeX</h2>
+        <button class="copy-bibtex-btn" onclick="copyBibTeX()" title="Copy BibTeX to clipboard">
+          <i class="fas fa-copy"></i>
+          <span class="copy-text">Copy</span>
+        </button>
+      </div>
+      <!-- TODO: replace with the real citation once the venue and year are known. -->
+      <pre id="bibtex-code"><code>TODO: A citation will be posted here once the paper is published.</code></pre>
+    </div>
+  </section>
+  <!-- End BibTeX -->
+
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="columns is-centered">
+        <div class="column is-8">
+          <div class="content">
+            <p>
+              This page was built using the <a href="https://github.com/eliahuhorwitz/Academic-project-page-template" target="_blank">Academic Project Page Template</a> which was adopted from the <a href="https://nerfies.github.io" target="_blank">Nerfies</a> project page.
+              You are free to borrow the source code of this website, we just ask that you link back to this page in the footer. <br> This website is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/" target="_blank">Creative
+              Commons Attribution-ShareAlike 4.0 International License</a>.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>
