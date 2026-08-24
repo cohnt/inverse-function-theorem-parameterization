@@ -321,21 +321,21 @@
   <!-- Method -->
   <section class="section hero">
     <div class="container is-max-desktop">
+      <h2 class="title is-3 has-text-centered">Method</h2>
+
+      <!-- <div class="columns is-centered">
+        <div class="column is-half fig">
+          <img src="static/images/domain_extension.gif" alt="A KUKA iiwa arm tracking a target that remains inside its reachable workspace." loading="lazy">
+          <p class="fig-caption"><strong>Domain extension.</strong> Inside the workspace, extended IK agrees exactly with ordinary analytic IK.</p>
+        </div>
+        <div class="column is-half fig">
+          <img src="static/images/boundary_reach.gif" alt="A KUKA iiwa arm with a plot of the boundary reachability constraint value over time." loading="lazy">
+          <p class="fig-caption"><strong>Boundary reachability.</strong> The constraint stays slack in the interior and becomes active at the boundary.</p>
+        </div>
+      </div> -->
+
       <div class="columns is-centered">
         <div class="column is-four-fifths">
-          <h2 class="title is-3 has-text-centered">Method</h2>
-
-          <div class="columns is-centered">
-            <div class="column is-half fig">
-              <img src="static/images/domain_extension.gif" alt="A KUKA iiwa arm tracking a target that remains inside its reachable workspace." loading="lazy">
-              <p class="fig-caption"><strong>Domain extension.</strong> Inside the workspace, extended IK agrees exactly with ordinary analytic IK.</p>
-            </div>
-            <div class="column is-half fig">
-              <img src="static/images/boundary_reach.gif" alt="A KUKA iiwa arm with a plot of the boundary reachability constraint value over time." loading="lazy">
-              <p class="fig-caption"><strong>Boundary reachability.</strong> The constraint stays slack in the interior and blows up at the boundary.</p>
-            </div>
-          </div>
-
           <div class="content has-text-justified">
             <p>
               Kinematic equality constraints &mdash; carrying a box with two hands, opening a door, keeping feet planted &mdash;
@@ -361,6 +361,10 @@
             <p>
               \[ -\log\det\!\left( J J^\top + \epsilon I \right) \le \tau \]
             </p>
+            <div class="fig">
+              <img src="static/images/boundary_reach.gif" alt="A KUKA iiwa arm with a plot of the boundary reachability constraint value over time." loading="lazy">
+                <p class="fig-caption">The <strong>Domain Extension</strong> maps non-reachable end-effector targets to the boundary of the workspace. The <strong>Boundary Reachability</strong> constraint stays slack in the interior and becomes active at the boundary.</p>
+            </div>
           </div>
 
         </div>
@@ -517,17 +521,6 @@
             </p>
           </div>
 
-          <div class="columns is-centered">
-            <div class="column is-half fig">
-              <img src="static/images/rby1_grid_setup.png" alt="Plot of the reachable region for the box center with the 4 by 5 grid of tested placements overlaid." loading="lazy">
-              <p class="fig-caption">All 20 placements lie inside the verified reachable region.</p>
-            </div>
-            <div class="column is-half fig">
-              <img src="static/images/rby1_grid_status.png" alt="Grid of 20 box placement points, all marked as successfully planned." loading="lazy">
-              <p class="fig-caption">All 20 grid points planned successfully.</p>
-            </div>
-          </div>
-
           <p class="table-caption" style="margin-top: 1.5rem;">Table III &mdash; RB-Y1 box pickup experimental results.</p>
           <div class="table-container">
           <table class="table is-fullwidth is-striped is-narrow results-table">
@@ -552,26 +545,6 @@
     </div>
   </section>
   <!-- End experiment 3 -->
-
-  <!-- Acknowledgements -->
-  <section class="section hero">
-    <div class="container is-max-desktop">
-      <div class="columns is-centered">
-        <div class="column is-four-fifths">
-          <h2 class="title is-3 has-text-centered">Acknowledgements</h2>
-          <div class="content has-text-justified">
-            <p>
-              We thank Aditya Agarwal and Lucy Cai for their contributions to the RB-Y1 communication infrastructure, and
-              Shrutheesh Iyer for his insights on kinematics. This project was supported by the NSF Graduate Research Fellowship
-              Program under Grant No. 2141064, MIT Siegel Family Quest for Intelligence, NSERC, and the Army Research Laboratory
-              under Cooperative Agreement Number W911NF-17-2-0181.
-            </p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-  <!-- End acknowledgements -->
 
   <!-- BibTeX -->
   <section class="section" id="BibTeX">
