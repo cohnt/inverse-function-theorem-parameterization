@@ -62,7 +62,7 @@ Derived at build time from read-only sources; regenerate with ImageMagick / `pdf
 | `rby1_grid_setup.png` | `rby1-constrained-planning/notebooks/box_placement_grid.png` |
 | `rby1_grid_status.png` | `rby1-constrained-planning/plans/grid_cache/grid_status.png` |
 | `domain_extension.gif` | `rby1-constrained-planning/video/v2_domain_extension.mp4` |
-| `boundary_reach.gif` | `rby1-constrained-planning/video/v2_boundary_reach.mp4` |
+| `videos/boundary_reach.mp4` | `rby1-constrained-planning/video/v2_boundary_reach.mp4` (copied as-is) |
 
 ## License
 

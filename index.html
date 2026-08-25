@@ -271,29 +271,6 @@
   </section>
   <!-- End overview video -->
 
-  <!-- Results carousel -->
-  <section class="hero is-small">
-    <div class="hero-body">
-      <div class="container is-max-desktop">
-        <div id="results-carousel" class="carousel results-carousel">
-          <div class="item">
-            <img src="static/images/teaser_rby1.jpg" alt="Swept volume of an RB-Y1 humanoid carrying a box from the floor to a table." loading="lazy"/>
-            <h2 class="subtitle has-text-centered">An RB-Y1 carries a box with both hands, planned in minimal coordinates.</h2>
-          </div>
-          <div class="item">
-            <img src="static/images/iiwa_swept_volume.jpg" alt="Swept volume of two KUKA iiwa arms carrying an object between them." loading="lazy"/>
-            <h2 class="subtitle has-text-centered">A collision-free, constraint-satisfying bimanual KUKA iiwa motion.</h2>
-          </div>
-          <div class="item">
-            <img src="static/images/grasp_selection.jpg" alt="Three semi-transparent UR5e arms grasping the same mug from different configurations." loading="lazy"/>
-            <h2 class="subtitle has-text-centered">Three grasps admitted by our UR5e grasp-selection formulation.</h2>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-  <!-- End results carousel -->
-
   <!-- Abstract -->
   <section class="section hero is-light">
     <div class="container is-max-desktop">
@@ -318,21 +295,33 @@
   </section>
   <!-- End abstract -->
 
+  <!-- Results carousel -->
+  <section class="hero is-small is-light">
+    <div class="hero-body">
+      <div class="container is-max-desktop">
+        <div id="results-carousel" class="carousel results-carousel">
+          <div class="item">
+            <img src="static/images/teaser_rby1.jpg" alt="Swept volume of an RB-Y1 humanoid carrying a box from the floor to a table." loading="lazy"/>
+            <h2 class="subtitle has-text-centered">An RB-Y1 carries a box with both hands, planned in minimal coordinates.</h2>
+          </div>
+          <div class="item">
+            <img src="static/images/iiwa_swept_volume.jpg" alt="Swept volume of two KUKA iiwa arms carrying an object between them." loading="lazy"/>
+            <h2 class="subtitle has-text-centered">A collision-free, constraint-satisfying bimanual KUKA iiwa motion.</h2>
+          </div>
+          <div class="item">
+            <img src="static/images/grasp_selection.jpg" alt="Three semi-transparent UR5e arms grasping the same mug from different configurations." loading="lazy"/>
+            <h2 class="subtitle has-text-centered">Three grasps admitted by our UR5e grasp-selection formulation.</h2>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- End results carousel -->
+
   <!-- Method -->
   <section class="section hero">
     <div class="container is-max-desktop">
       <h2 class="title is-3 has-text-centered">Method</h2>
-
-      <!-- <div class="columns is-centered">
-        <div class="column is-half fig">
-          <img src="static/images/domain_extension.gif" alt="A KUKA iiwa arm tracking a target that remains inside its reachable workspace." loading="lazy">
-          <p class="fig-caption"><strong>Domain extension.</strong> Inside the workspace, extended IK agrees exactly with ordinary analytic IK.</p>
-        </div>
-        <div class="column is-half fig">
-          <img src="static/images/boundary_reach.gif" alt="A KUKA iiwa arm with a plot of the boundary reachability constraint value over time." loading="lazy">
-          <p class="fig-caption"><strong>Boundary reachability.</strong> The constraint stays slack in the interior and becomes active at the boundary.</p>
-        </div>
-      </div> -->
 
       <div class="columns is-centered">
         <div class="column is-four-fifths">
@@ -362,7 +351,9 @@
               \[ -\log\det\!\left( J J^\top + \epsilon I \right) \le \tau \]
             </p>
             <div class="fig">
-              <img src="static/images/boundary_reach.gif" alt="A KUKA iiwa arm with a plot of the boundary reachability constraint value over time." loading="lazy">
+              <video autoplay muted loop playsinline preload="metadata" aria-label="A KUKA iiwa arm with a plot of the boundary reachability constraint value over time.">
+                <source src="static/videos/boundary_reach.mp4" type="video/mp4">
+              </video>
                 <p class="fig-caption">The <strong>Domain Extension</strong> maps non-reachable end-effector targets to the boundary of the workspace. The <strong>Boundary Reachability</strong> constraint stays slack in the interior and becomes active at the boundary.</p>
             </div>
           </div>

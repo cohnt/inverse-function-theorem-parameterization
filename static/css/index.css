@@ -242,6 +242,14 @@ body {
     border-radius: var(--border-radius-lg);
 }
 
+.fig video {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow-md);
+}
+
 .publication-body img {
   border-radius: var(--border-radius);
   box-shadow: var(--shadow-md);
@@ -255,7 +263,7 @@ body {
 
 .results-carousel {
   overflow: hidden;
-  padding: 1rem 0;
+  padding: 1rem 0 2.5rem;
 }
 
 .results-carousel .item {
@@ -291,15 +299,30 @@ body {
 }
 
 /* Pagination and Misc Improvements */
+.slider-pagination {
+  padding: 0.25rem 1rem;
+}
+
 .slider-pagination .slider-page {
-  background: var(--primary-color);
+  width: 11px;
+  height: 11px;
+  background: var(--background-primary);
+  border: 2px solid var(--text-light);
   border-radius: 50%;
+  box-shadow: none;
+  opacity: 1;
   transition: var(--transition);
 }
 
+.slider-pagination .slider-page:hover {
+  border-color: var(--primary-color);
+  transform: scale(1.15);
+}
+
 .slider-pagination .slider-page.is-active {
-  background: var(--primary-hover);
-  transform: scale(1.2);
+  background: var(--primary-color);
+  border-color: var(--primary-color);
+  transform: scale(1.25);
 }
 
 .eql-cntrb { 
