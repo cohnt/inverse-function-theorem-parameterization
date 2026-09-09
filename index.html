@@ -4,12 +4,12 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <title>Planning along Differentiable Charts of Constraint Manifolds with the Inverse Function Theorem</title>
-  <meta name="description" content="We use the inverse function theorem to differentiate through black-box analytic inverse kinematics solvers, enabling constrained trajectory optimization in minimal coordinates on arbitrary robot manipulators.">
+  <title>Planning along Differentiable Charts of Constraint Manifolds with General-Purpose IK Solvers</title>
+  <meta name="description" content="We use the inverse function theorem to differentiate through the black-box analytic inverse kinematics produced by general-purpose solvers like IKFast and EAIK, enabling constrained trajectory optimization in minimal coordinates on arbitrary robot manipulators.">
 
   <!-- This page is deliberately not optimized for search indexing. No Scholar/Twitter metadata. -->
-  <meta property="og:title" content="Planning along Differentiable Charts of Constraint Manifolds with the Inverse Function Theorem">
-  <meta property="og:description" content="Differentiating through black-box analytic IK with the inverse function theorem.">
+  <meta property="og:title" content="Planning along Differentiable Charts of Constraint Manifolds with General-Purpose IK Solvers">
+  <meta property="og:description" content="Differentiating through the black-box analytic IK of general-purpose solvers with the inverse function theorem.">
   <meta property="og:type" content="website">
   <meta property="og:image" content="static/images/social_preview.jpg">
 
@@ -67,24 +67,8 @@
       font-size: 0.85rem;
       color: #7a7a7a;
     }
-    /* .hero is a flex column, so a container holding only a placeholder shrink-to-fits. */
+    /* .hero is a flex column, so a container holding only the video embed shrink-to-fits. */
     .hero > .container { width: 100%; }
-    .media-placeholder {
-      width: 100%;
-      flex: 0 0 auto;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-direction: column;
-      background: #f0f1f4;
-      border: 2px dashed #c6c9d2;
-      border-radius: 10px;
-      color: #7a7a7a;
-      text-align: center;
-      padding: 2rem 1rem;
-    }
-    .media-placeholder.is-video { aspect-ratio: 16 / 9; }
-    .media-placeholder .fa-play-circle, .media-placeholder .fa-film { font-size: 2.6rem; margin-bottom: 0.6rem; }
     .fig-caption {
       font-size: 0.9rem;
       color: #4a4a4a;
@@ -157,7 +141,7 @@
         </a>
         <a href="https://arxiv.org/abs/2602.05092" class="work-item" target="_blank">
           <div class="work-info">
-            <h5>A Framework for Constrained Motion Planning in Minimal Coordinates</h5>
+            <h5>A Framework for Combining Optimization-Based and Analytic Inverse Kinematics</h5>
             <p>The broader minimal-coordinates framework.</p>
             <span class="work-venue">arXiv 2602.05092</span>
           </div>
@@ -175,7 +159,7 @@
       <div class="container is-max-desktop">
         <div class="columns is-centered">
           <div class="column has-text-centered">
-            <h1 class="title is-1 publication-title">Planning along Differentiable Charts of Constraint Manifolds with the Inverse Function Theorem</h1>
+            <h1 class="title is-1 publication-title">Planning along Differentiable Charts of Constraint Manifolds with General-Purpose IK Solvers</h1>
             <div class="is-size-5 publication-authors">
               <span class="author-block">
                 <a href="https://tommycohn.com/" target="_blank">Thomas Cohn</a><sup>*</sup>,</span>
@@ -228,9 +212,8 @@
                   </a>
                 </span>
 
-                <!-- TODO: point at the overview video on YouTube once uploaded. -->
                 <span class="link-block">
-                  <a class="external-link button is-normal is-rounded is-dark coming-soon" aria-disabled="true">
+                  <a href="https://youtu.be/knwrIr45kck" class="external-link button is-normal is-rounded is-dark" target="_blank">
                     <span class="icon"><i class="fab fa-youtube"></i></span>
                     <span>Video</span>
                   </a>
@@ -245,7 +228,7 @@
                 </span>
 
               </div>
-              <span class="coming-soon-note">Paper, code, and video links will go live when the paper is released.</span>
+              <span class="coming-soon-note">Paper, arXiv, and code links will go live when the paper is released.</span>
             </div>
           </div>
         </div>
@@ -257,14 +240,8 @@
   <section class="hero teaser">
     <div class="container is-max-desktop">
       <div class="hero-body">
-        <!-- TODO: replace the placeholder below with the real player once the overview video is uploaded:
         <div class="publication-video">
-          <iframe src="https://www.youtube.com/embed/OVERVIEW_VIDEO_ID" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
-        </div>
-        -->
-        <div class="media-placeholder is-video">
-          <i class="fas fa-play-circle"></i>
-          <p><strong>Overview video coming soon</strong></p>
+          <iframe src="https://www.youtube.com/embed/knwrIr45kck" title="Overview video" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
         </div>
       </div>
     </div>
@@ -279,14 +256,13 @@
           <h2 class="title is-3">Abstract</h2>
           <div class="content has-text-justified">
             <p>
-              Planning trajectories for robot manipulators under kinematic equality constraints restricts feasible motions to a measure-zero submanifold of the configuration space, requiring specialized algorithmic treatment.
+              Planning trajectories for robot manipulators under kinematic equality constraints restricts feasible motions to a measure-zero submanifold of the configuration space, requiring special algorithmic treatment.
               A promising strategy is parametrizing the set of feasible configurations using analytic inverse kinematics (IK).
-              Select robot manipulators have bespoke handwritten analytic IK functions which are differentiable, a necessary property for gradient-based trajectory optimization.
-              But the vast majority of manipulators have IK mappings computed by automated meta-solvers like IKFast, which are notoriously difficult to differentiate through.
+              Bespoke analytic IK functions can be written to be differentiable, a necessary property for gradient-based trajectory optimization.
+              But the vast majority of IK functions are computed by automated meta-solvers like IKFast, and are difficult to modify for differentiability.
               We present a new approach for computing gradients of analytic IK parameterizations: we leverage the inverse function theorem to recover the desired gradients from the ordinary forward kinematic Jacobian.
-              Furthermore, we present a least-squares domain extension and an optimization-amenable description of the reachability constraint.
-              This preserves gradient signal outside the reachable workspace, allowing nonlinear optimizers to elegantly recover from infeasible intermediate iterates.
-              We demonstrate the efficacy of our proposed approach through direct numerical experiments and downstream motion planning tasks, including a hardware demonstration of an RB-Y1 picking up a box and placing it on a table.
+              Furthermore, we present a least-squares domain extension and an optimization-amenable description of the reachability constraint, which preserves gradient signal outside the reachable workspace.
+              We demonstrate the efficacy of our approach through numerical experiments and downstream tasks, including a hardware demonstration of an RB-Y1 picking up a box and placing it on a table.
             </p>
           </div>
         </div>
@@ -302,11 +278,11 @@
         <div id="results-carousel" class="carousel results-carousel">
           <div class="item">
             <img src="static/images/teaser_rby1.jpg" alt="Swept volume of an RB-Y1 humanoid carrying a box from the floor to a table." loading="lazy"/>
-            <h2 class="subtitle has-text-centered">An RB-Y1 carries a box with both hands, planned in minimal coordinates.</h2>
+            <h2 class="subtitle has-text-centered">An RB-Y1 picks a box up off the floor and places it on a table, planned in minimal coordinates.</h2>
           </div>
           <div class="item">
             <img src="static/images/iiwa_swept_volume.jpg" alt="Swept volume of two KUKA iiwa arms carrying an object between them." loading="lazy"/>
-            <h2 class="subtitle has-text-centered">A collision-free, constraint-satisfying bimanual KUKA iiwa motion.</h2>
+            <h2 class="subtitle has-text-centered">A bimanual KUKA iiwa motion that holds a constant relative end-effector transform throughout.</h2>
           </div>
           <div class="item">
             <img src="static/images/grasp_selection.jpg" alt="Three semi-transparent UR5e arms grasping the same mug from different configurations." loading="lazy"/>
@@ -327,10 +303,12 @@
         <div class="column is-four-fifths">
           <div class="content has-text-justified">
             <p>
-              Kinematic equality constraints &mdash; carrying a box with two hands, opening a door, keeping feet planted &mdash;
-              confine a robot to a measure-zero <em>constraint manifold</em>. Rather than carry that constraint through the
-              optimization, we <em>parameterize</em> the manifold with analytic inverse kinematics: optimize over end-effector
-              pose and self-motion, and let IK map back to joint angles. The constraint then holds by construction.
+              Kinematic equality constraints &mdash; carrying a box with two hands, opening a door, keeping feet planted, or
+              any policy that reasons about the robot as a floating hand &mdash; confine a robot to a measure-zero
+              <em>constraint manifold</em>. Rather than carry that constraint through the optimization, we
+              <em>parameterize</em> the manifold with analytic inverse kinematics: optimize over end-effector pose and
+              self-motion, and let IK map back to joint angles. The constraint then holds by construction, leaving a
+              positive-measure feasible set bounded only by inequalities.
             </p>
             <p>
               This needs derivatives of the IK map, and almost every manipulator gets its IK from a meta-solver like IKFast,
@@ -340,6 +318,13 @@
             </p>
             <p>
               \[ D\mathrm{FK}_A(q)\, \frac{\partial q}{\partial y} = \left( \frac{\partial X}{\partial y},\ \frac{\partial \psi}{\partial y} \right)^{\!\top} \]
+            </p>
+            <p>
+              This is the same linear algebra that differential IK (DiffIK) uses, but put to a different purpose. DiffIK
+              resolves redundancy <em>locally</em>, one step at a time, and can get stuck tracking a difficult end-effector
+              path. Because the augmented Jacobian pins the self-motion down explicitly, our charts stay globally consistent,
+              so the optimizer can plan motions that avoid joint limits, workspace boundaries, and kinematic singularities
+              outright.
             </p>
             <p>
               Analytic IK is also undefined outside the reachable workspace, where optimizers routinely wander. We extend it
@@ -380,8 +365,8 @@
             </div>
           </div>
           <p class="fig-caption">
-            Error (left) and runtime (right) versus autodiff, over 10,000 sampled reachable configurations. Axes are log-scale;
-            shading is the 5&ndash;95% range.
+            Error (left) and runtime (right) versus autodiff, over 10,000 sampled reachable configurations. Axes are log-scale,
+            shading is the 5&ndash;95% range, and outliers with higher error are marked in red.
           </p>
 
           <div class="content has-text-justified" style="margin-top: 1.5rem;">
@@ -389,8 +374,11 @@
               The bimanual KUKA iiwa of <a href="https://arxiv.org/abs/2309.08770" target="_blank">Cohn et al. (ICRA 2024)</a>
               has a handwritten analytic IK that <em>was</em> instrumented for autodiff, giving us a ground truth. The two agree
               to numerical precision, and our method is faster once the partial size passes \(2^6\). Downstream, our gradients
-              paired with the old direct reachability constraint cost about 4&times; on convex region growth, but paired with
-              boundary reachability and residual damping they land at 1.15 s against the bespoke baseline's 1.03 s.
+              paired with the old direct reachability constraint cost about 4&times; on the IrisNp2 convex region growth that
+              feeds graph-of-convex-sets planning, but paired with boundary reachability and residual damping they land at
+              1.15 s against the bespoke baseline's 1.03 s. Boundary reachability is what makes the difference: it handles
+              unreachable optimizer iterates robustly, while direct reachability stays active even in the interior of the
+              feasible set.
             </p>
           </div>
 
@@ -448,26 +436,36 @@
             <div class="headline-stat"><span class="num">61.4%</span><span class="lbl">IFT, direct</span></div>
             <div class="headline-stat"><span class="num">63.2%</span><span class="lbl">IFT, boundary</span></div>
           </div>
+          <p class="fig-caption">Success rate from a single initialization.</p>
 
           <div class="content has-text-justified">
             <p>
               A UR5e must grasp a mug among shelf obstacles, with IK derived automatically by
-              <a href="https://ieeexplore.ieee.org/document/11122599" target="_blank">EAIK</a>. Reformulating the problem in
-              minimal coordinates raises SNOPT's success rate by nearly 17 points over the configuration-space baseline, across
-              1000 paired solves.
+              <a href="https://ieeexplore.ieee.org/document/11122599" target="_blank">EAIK</a>. We generate 100 problem
+              instances by rejection sampling collision-free goal states, and solve each from 10 randomly sampled
+              initializations shared across all three formulations. Reformulating the problem in minimal coordinates raises
+              SNOPT's single-initialization success rate by nearly 17 points over the configuration-space baseline; with
+              three-initialization multistart, the parameterized formulations reach 90&ndash;93% against the baseline's 86%.
+              The IFT solutions cost slightly more, likely because the change of variables distorts the joint-centering
+              objective.
             </p>
           </div>
 
-          <p class="table-caption">Table II &mdash; Grasp selection IK experimental results. The number in parentheses is restricted to three-way mutual successes.</p>
+          <p class="table-caption">Table II &mdash; UR5e grasp selection IK experimental results. The number in parentheses is restricted to three-way mutual successes.</p>
           <div class="table-container">
           <table class="table is-fullwidth is-striped is-narrow results-table">
             <thead>
-              <tr><th>Formulation</th><th>Success Rate</th><th>Mean Cost</th><th>Median Cost</th><th>Mean Runtime</th><th>Median Runtime</th></tr>
+              <tr>
+                <th rowspan="2">Formulation</th>
+                <th colspan="2" class="has-text-centered">Success Rate (Multistart)</th>
+                <th rowspan="2">Mean Cost</th><th rowspan="2">Median Cost</th><th rowspan="2">Mean Runtime</th><th rowspan="2">Median Runtime</th>
+              </tr>
+              <tr><th>1 init</th><th>3 init</th></tr>
             </thead>
             <tbody>
-              <tr><td>C-Space Baseline</td><td>46.5%</td><td>12.68 (12.81)</td><td>10.94 (11.11)</td><td>0.357 (0.365)</td><td>0.105 (0.096)</td></tr>
-              <tr><td>IFT, Direct</td><td>61.4%</td><td>13.30 (12.57)</td><td>12.65 (11.95)</td><td>0.719 (0.720)</td><td>0.100 (0.083)</td></tr>
-              <tr><td>IFT, Boundary</td><td>63.2%</td><td>13.53 (13.03)</td><td>12.83 (12.66)</td><td>0.776 (0.825)</td><td>0.110 (0.095)</td></tr>
+              <tr><td>C-Space Baseline</td><td>46.5%</td><td>86%</td><td>12.68 (12.81)</td><td>10.94 (11.11)</td><td>0.357 (0.365)</td><td>0.105 (0.096)</td></tr>
+              <tr><td>IFT, Direct</td><td>61.4%</td><td>93%</td><td>13.30 (12.57)</td><td>12.65 (11.95)</td><td>0.719 (0.720)</td><td>0.100 (0.083)</td></tr>
+              <tr><td>IFT, Boundary</td><td>63.2%</td><td>90%</td><td>13.53 (13.03)</td><td>12.83 (12.66)</td><td>0.776 (0.825)</td><td>0.110 (0.095)</td></tr>
             </tbody>
           </table>
           </div>
@@ -485,14 +483,8 @@
         <div class="column is-four-fifths">
           <h2 class="title is-3 has-text-centered">Whole-body pick-and-place on RB-Y1 hardware</h2>
 
-          <!-- TODO: replace the placeholder below with the real player once the supplementary video is uploaded:
           <div class="publication-video">
-            <iframe src="https://www.youtube.com/embed/SUPPLEMENTARY_VIDEO_ID" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
-          </div>
-          -->
-          <div class="media-placeholder is-video">
-            <i class="fas fa-play-circle"></i>
-            <p><strong>Hardware results video coming soon</strong></p>
+            <iframe src="https://www.youtube.com/embed/zpo1h51pXEk" title="RB-Y1 hardware rollouts" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
           </div>
 
           <div class="headline-stats">
@@ -505,10 +497,13 @@
           <div class="content has-text-justified">
             <p>
               A Rainbow Robotics RB-Y1 picks a box off the floor with both hands and places it on a table, using IKFast-generated
-              IK, while keeping its center of mass over its support polytope. We ran it from 20 box placements on a
-              4&times;5 grid spaced 3 cm apart. All 20 planned and executed. The plans satisfy the constraint to floating point
-              tolerance, so joint position control alone was enough &mdash; what the robot actually shows is controller tracking
-              error, averaging just over half a millimeter.
+              IK, while keeping its center of mass over its support polytope. Grasps come from an optimization IK formulation
+              and are ranked by a cheap heuristic plus a plannability check; the motions are planned with bidirectional RRT
+              and shortcutting, refined by trajectory optimization, and retimed with TOPPRA. Constrained legs of the motion use
+              the parameterization; unconstrained legs stay in C-space. We ran it from 20 box placements on a 4&times;5 grid
+              spaced 3 cm apart. All 20 planned and executed. The plans satisfy the constraint to floating point tolerance, so
+              joint position control alone was enough &mdash; what the robot actually shows is controller tracking error,
+              averaging just over half a millimeter.
             </p>
           </div>
 

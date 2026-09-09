@@ -1,4 +1,4 @@
-# Planning along Differentiable Charts of Constraint Manifolds with the Inverse Function Theorem
+# Planning along Differentiable Charts of Constraint Manifolds with General-Purpose IK Solvers
 
 Project page for the paper by Thomas Cohn\*, Seiji Shaw\*, Harel Biggie, Travis Manderson,
 Nicholas Roy, and Russ Tedrake (MIT CSAIL). \* denotes equal contribution.
@@ -21,7 +21,8 @@ There is no build step. `.nojekyll` is present so GitHub Pages serves `static/` 
   template's `index.css` / `index.js`. Academicons, MathJax, Inter, and jQuery load from CDNs.
 - `static/images/` — figures, all derived from the paper source and the experiment repositories
   (see "Figure provenance" below).
-- `static/videos/` — currently empty; the teaser loop goes here if one is added.
+- `static/videos/` — locally hosted clips. The two YouTube embeds (overview and hardware rollouts) are
+  linked, not committed.
 
 ## TODO before publishing
 
@@ -37,16 +38,13 @@ The page is complete in structure but deliberately ships with placeholders. Each
    - `sageshoyu/rby1-constrained-planning` (Experiment 3)
 
    Make them public before linking. The URLs are already in a comment next to the button.
-5. **Video button** and **the two YouTube embeds.** The overview video doubles as the teaser and sits
-   directly under the hero; the hardware supplementary video sits in the RB-Y1 section. Upload both,
-   then swap each `.media-placeholder` for the commented-out `<div class="publication-video">` block and
-   fill in the video ID. Source files live in `rby1-constrained-planning/video/` as `overview_video.mp4`
-   (named credits) and `ral_supplementary.mp4` (anonymous title card by default — regenerate with
-   `make_cards.py --named` before uploading publicly).
-6. **LinkedIn button.** Disabled until the announcement post exists.
-7. **BibTeX.** Currently the literal text "TODO". Fill in once the venue and year are known.
-8. **Social preview.** `static/images/social_preview.jpg` is an auto-generated 1200×630 crop of the
+5. **LinkedIn button.** Disabled until the announcement post exists.
+6. **BibTeX.** Currently the literal text "TODO". Fill in once the venue and year are known.
+7. **Social preview.** `static/images/social_preview.jpg` is an auto-generated 1200×630 crop of the
    teaser render; consider replacing it with a deliberately composed frame.
+
+Done: the overview video (`https://youtu.be/knwrIr45kck`) sits directly under the hero and also backs
+the Video button; the hardware rollout video (`https://youtu.be/zpo1h51pXEk`) sits in the RB-Y1 section.
 
 ## Figure provenance
 
@@ -61,7 +59,6 @@ Derived at build time from read-only sources; regenerate with ImageMagick / `pdf
 | `autodiff_error.png`, `autodiff_runtime.png` | `ift-ik-paper/media/autodiff/*_cropped.pdf` |
 | `rby1_grid_setup.png` | `rby1-constrained-planning/notebooks/box_placement_grid.png` |
 | `rby1_grid_status.png` | `rby1-constrained-planning/plans/grid_cache/grid_status.png` |
-| `domain_extension.gif` | `rby1-constrained-planning/video/v2_domain_extension.mp4` |
 | `videos/boundary_reach.mp4` | `rby1-constrained-planning/video/v2_boundary_reach.mp4` (copied as-is) |
 
 ## License
